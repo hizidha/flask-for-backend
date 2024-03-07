@@ -2,7 +2,7 @@ import os, uuid, mimetypes
 from werkzeug.utils import secure_filename
 
 from flask import Flask, url_for, request, make_response, render_template, jsonify
-from users import valid_login, log_the_user_in
+# from users import valid_login, log_the_user_in
 
 app = Flask(__name__)
 
@@ -73,12 +73,12 @@ def show_list_elearning():
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     error = None
-    if request.method == 'POST':
-        if valid_login(request.form['username'],
-                       request.form['password']):
-            return log_the_user_in(request.form['username'])
-        else:
-            error = 'Invalid Username or Password.'
+    # if request.method == 'POST':
+    #     if valid_login(request.form['username'],
+    #                    request.form['password']):
+    #         return log_the_user_in(request.form['username'])
+    #     else:
+    #         error = 'Invalid Username or Password.'
             
     return render_template('login.html', error=error)       
     #return "Login Page"
