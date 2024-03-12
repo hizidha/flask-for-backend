@@ -6,16 +6,16 @@ app = Flask(__name__)
 
 app.secret_key = b'20e4d0b360d1ddc6fe6a5ce151feab197f6c39ac703e1830f029ba15dc3f132e'
 
-# Data pengguna yang disimpan dalam bentuk dictionary (ini hanya contoh sederhana, seharusnya data ini disimpan secara aman dalam database)
+# Data pengguna yang disimpan dalam bentuk dictionary
 user_data = {
     'admin': {
-        'password': bcrypt.hashpw(b'admin123', bcrypt.gensalt()),
+        'password': bcrypt.hashpw(b'adminbesar', bcrypt.gensalt()),
         'login_attempts': 0
     }
 }
 
 class InvalidCredentials(HTTPException):
-    code = 401
+    code = 400
     description = 'Please enter correct username or password.'
     
 class TooManyAttempts(HTTPException):
@@ -51,8 +51,9 @@ def login():
 
 @app.route('/logout', methods=['POST'])
 def logout():
+    username = session['username']
+    flash(f'See You Again {username}.', 'success')
     session.pop('username', None)
-    flash('See You Again.', 'success')
     return redirect(url_for('login'))
 
 @app.errorhandler(InvalidCredentials)

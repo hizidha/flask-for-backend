@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
+    <link rel="shortcut icon" href="https://www.python.org/static/favicon.ico" type="image/x-icon">
     <style>
         body {
             display: flex;
@@ -47,15 +48,24 @@
             border: none;
             border-radius: 3px;
             cursor: pointer;
+            margin-bottom: 5px;
         }
-
         button:hover {
             background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #747474;
+            color: #3b3b3b;
         }
         span {
             margin-top: 10px;
             color: red;
             font-size: 12px;
+            margin-bottom: 20px;
+        }
+        #countdown-text {
+            width: 100%;
+            text-align: center;
         }
     </style>
 </head>
@@ -71,31 +81,48 @@
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit">Login</button>
+            <button id="login-btn" type="submit">Login</button>
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
+                <span id="error-message">
                     {% for message in messages %}
-                        <span class="error-message">{{ message }}</span>    
+                        {{ message }}
                     {% endfor %}
+                </span>
                 {% endif %}
             {% endwith %}
+            <span id="countdown-text"></span>
         </form>
     </div>
 </body>
 
 <script>
+    var errorMessages = document.getElementById("error-message");
+    var countdownText = document.getElementById("countdown-text");
+
     function handleFlashCategory() {
-            var errorMessages = document.getElementsByClassName("error-message");
-            for (var i = 0; i < errorMessages.length; i++) {
-                if (errorMessages[i].textContent.trim() === 'Too many login attempts. Please try again later.') {
-                    document.getElementById("login-btn").disabled = true;
-                    setTimeout(function() {
-                        document.getElementById("login-btn").disabled = false;
-                    }, 5000);
-                    return;
-                }
-            }
-            document.getElementById("login-btn").disabled = false;
+        if (errorMessages.innerText === 'Too many login attempts. Please try again later.') {
+            errorMessages.innerText = '';
+            document.getElementById("login-btn").disabled = true;
+            countdownText.innerText = "Retry after 10 seconds";
+            countdown(10);
+            return;
         }
+        document.getElementById("login-btn").disabled = false;
+    }
+
+    function countdown(seconds) {
+        var interval = setInterval(function() {
+            seconds--;
+            countdownText.innerText = "Retry after " + seconds + " seconds";
+            if (seconds <= 0) {
+                clearInterval(interval);
+                document.getElementById("login-btn").disabled = false;
+                countdownText.innerText = '';
+            }
+        }, 1000);
+    }
+
+    window.onload = handleFlashCategory;
 </script>
 </html>

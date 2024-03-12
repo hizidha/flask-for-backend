@@ -4,39 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
+    <link rel="shortcut icon" href="https://www.python.org/static/favicon.ico" type="image/x-icon">
     <style>
-        body {
+        .classes {
+            height: 90vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column; /* Menjadikan konten berada di tengah vertikal */
+            flex-direction: column; /* Menjadikan konten berada di tengah vertikal */   
         }
         div {
-            display: block; /* Menjadikan div menjadi blok untuk muncul pada baris yang berbeda */
-            margin-bottom: 10px; /* Memberikan margin bawah agar terdapat jarak antara div */
+            margin-bottom: 10px;
         }
         button {
             width: 100%;
             padding: 10px;
-            background-color: #007bff;
+            background-color: #ff0000;
             color: #fff;
             border: none;
             border-radius: 3px;
             cursor: pointer;
+            min-width: 200px;
         }
+
         button:hover {
-            background-color: #0056b3;
+            background-color: #b30000;
         }
     </style>
 </head>
 <body>
-    <div>
-        <h2>You login as {{ username }}</h2>
-    </div>
-    <div>
-        <form action="/logout" method="POST">
-            <button type="submit">Logout</button>
-        </form>
+    <div class="classes">
+        <div>
+            <h2>You login as {{ username }}</h2>
+        </div>
+        <div>
+            <form action="/logout" method="POST">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
